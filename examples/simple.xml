@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <element attr-1="attribute 1" attr-2="attribute 2">
+    <other-element>
+      Hello
+      <!-- A comment -->
+      World
+    </other-element>
+  </element>
+  <self-closing-element />
+</root>
