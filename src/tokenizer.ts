@@ -1,89 +1,89 @@
 export type Token =
-  | LeftBracket
-  | RightBracket
-  | Slash
-  | Equal
-  | QuestionMark
-  | Space
-  | Tab
-  | Linebreak
-  | Identifier
-  | StringLiteral
-  | Text
-  | Comment;
+  | LeftBracketToken
+  | RightBracketToken
+  | SlashToken
+  | EqualToken
+  | QuestionMarkToken
+  | SpaceToken
+  | TabToken
+  | LinebreakToken
+  | IdentifierToken
+  | StringLiteralToken
+  | TextToken
+  | CommentToken;
 
 export const LEFT_BRACKET = 1;
-export const LEFT_BRACKET_TOKEN: LeftBracket = { kind: LEFT_BRACKET };
-export interface LeftBracket {
+export const LEFT_BRACKET_TOKEN: LeftBracketToken = { kind: LEFT_BRACKET };
+export interface LeftBracketToken {
   kind: typeof LEFT_BRACKET;
 }
 
 export const RIGHT_BRACKET = 2;
-export const RIGHT_BRACKET_TOKEN: RightBracket = { kind: RIGHT_BRACKET };
-export interface RightBracket {
+export const RIGHT_BRACKET_TOKEN: RightBracketToken = { kind: RIGHT_BRACKET };
+export interface RightBracketToken {
   kind: typeof RIGHT_BRACKET;
 }
 
 export const SLASH = 3;
-export const SLASH_TOKEN: Slash = { kind: SLASH };
-export interface Slash {
+export const SLASH_TOKEN: SlashToken = { kind: SLASH };
+export interface SlashToken {
   kind: typeof SLASH;
 }
 
 export const EQUAL = 4;
-export const EQUAL_TOKEN: Equal = { kind: EQUAL };
-export interface Equal {
+export const EQUAL_TOKEN: EqualToken = { kind: EQUAL };
+export interface EqualToken {
   kind: typeof EQUAL;
 }
 
 export const QUESTION_MARK = 5;
-export const QUESTION_MARK_TOKEN: QuestionMark = { kind: QUESTION_MARK };
-export interface QuestionMark {
+export const QUESTION_MARK_TOKEN: QuestionMarkToken = { kind: QUESTION_MARK };
+export interface QuestionMarkToken {
   kind: typeof QUESTION_MARK;
 }
 
 export const SPACE = 6;
-export const SPACE_TOKEN: Space = { kind: SPACE };
-export interface Space {
+export const SPACE_TOKEN: SpaceToken = { kind: SPACE };
+export interface SpaceToken {
   kind: typeof SPACE;
 }
 
 export const TAB = 7;
-export const TAB_TOKEN: Tab = { kind: TAB };
-export interface Tab {
+export const TAB_TOKEN: TabToken = { kind: TAB };
+export interface TabToken {
   kind: typeof TAB;
 }
 
 export const LINEBREAK = 8;
-export const LINEBREAK_TOKEN: Linebreak = { kind: LINEBREAK };
-export interface Linebreak {
+export const LINEBREAK_TOKEN: LinebreakToken = { kind: LINEBREAK };
+export interface LinebreakToken {
   kind: typeof LINEBREAK;
 }
 
 export const IDENTIFIER = 9;
 export const IDENTIFIER_TOKEN = { kind: IDENTIFIER };
-export interface Identifier {
+export interface IdentifierToken {
   kind: typeof IDENTIFIER;
   name: string;
 }
 
 export const STRING_LITERAL = 10;
 export const STRING_LITERAL_TOKEN = { kind: STRING_LITERAL };
-export interface StringLiteral {
+export interface StringLiteralToken {
   kind: typeof STRING_LITERAL;
   quotedValue: string;
 }
 
 export const TEXT = 11;
 export const TEXT_TOKEN = { kind: TEXT };
-export interface Text {
+export interface TextToken {
   kind: typeof TEXT;
   text: string;
 }
 
 export const COMMENT = 12;
 export const COMMENT_TOKEN = { kind: COMMENT };
-export interface Comment {
+export interface CommentToken {
   kind: typeof COMMENT;
   content: string;
 }
