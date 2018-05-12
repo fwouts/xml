@@ -7,5 +7,7 @@
       World
     </other-element>
   </element>
+  <empty-element></empty-element>
   <self-closing-element />
+  <another-self-closing-element attr-hello="\"Hi!\"" />
 </root>
