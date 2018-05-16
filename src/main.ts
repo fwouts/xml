@@ -6,13 +6,13 @@ import { parse } from "./xml/parser";
 
 const DEBUG = false;
 
+if (process.argv.length <= 2) {
+  console.error(`Please specify a path to an XML file.`);
+  process.exit(1);
+}
+
 const tokens = Array.from(
-  tokenize(
-    fs.readFileSync(
-      path.join(__dirname, "..", "examples", "simple.xml"),
-      "utf8"
-    )
-  )
+  tokenize(fs.readFileSync(path.join("examples", "simple.xml"), "utf8"))
 );
 
 if (DEBUG) {

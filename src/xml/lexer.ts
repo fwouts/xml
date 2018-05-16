@@ -88,14 +88,14 @@ export interface CommentToken {
   content: string;
 }
 
-export type Mode = typeof CONTENT | typeof WITHIN_TAG;
+export type Mode = typeof MODE_CONTENT | typeof MODE_WITHIN_TAG;
 
-const CONTENT = 1;
-const WITHIN_TAG = 2;
+export const MODE_CONTENT = 1;
+export const MODE_WITHIN_TAG = 2;
 
 export function* tokenize(text: string): IterableIterator<XmlToken> {
   let position = 0;
-  let mode: Mode = CONTENT;
+  let mode: Mode = MODE_CONTENT;
   while (position < text.length) {
     let nextToken: XmlToken;
     const oldPosition = position;
@@ -114,7 +114,7 @@ function readToken(
 ): [XmlToken, number, Mode] {
   const firstCharacter = text[fromPosition];
   let nextTokenPosition = fromPosition + 1;
-  if (mode === CONTENT) {
+  if (mode === MODE_CONTENT) {
     if (firstCharacter === "<") {
       if (text.substr(nextTokenPosition, 3) === "!--") {
         // This is a comment.
@@ -132,11 +132,11 @@ function readToken(
               content
             },
             nextTokenPosition,
-            CONTENT
+            MODE_CONTENT
           ];
         }
       } else {
-        return [LEFT_BRACKET_TOKEN, nextTokenPosition, WITHIN_TAG];
+        return [LEFT_BRACKET_TOKEN, nextTokenPosition, MODE_WITHIN_TAG];
       }
     } else {
       const nextTagPosition = text.indexOf("<", nextTokenPosition);
@@ -154,31 +154,31 @@ function readToken(
           text: tokenText
         },
         nextTokenPosition,
-        CONTENT
+        MODE_CONTENT
       ];
     }
   } else {
     // WITHIN_TAG
     switch (firstCharacter) {
       case ">":
-        return [RIGHT_BRACKET_TOKEN, nextTokenPosition, CONTENT];
+        return [RIGHT_BRACKET_TOKEN, nextTokenPosition, MODE_CONTENT];
       case "/":
-        return [SLASH_TOKEN, nextTokenPosition, WITHIN_TAG];
+        return [SLASH_TOKEN, nextTokenPosition, MODE_WITHIN_TAG];
       case "?":
-        return [QUESTION_MARK_TOKEN, nextTokenPosition, WITHIN_TAG];
+        return [QUESTION_MARK_TOKEN, nextTokenPosition, MODE_WITHIN_TAG];
       case "=":
-        return [EQUAL_TOKEN, nextTokenPosition, WITHIN_TAG];
+        return [EQUAL_TOKEN, nextTokenPosition, MODE_WITHIN_TAG];
       case " ":
-        return [SPACE_TOKEN, nextTokenPosition, WITHIN_TAG];
+        return [SPACE_TOKEN, nextTokenPosition, MODE_WITHIN_TAG];
       case "\t":
-        return [TAB_TOKEN, nextTokenPosition, WITHIN_TAG];
+        return [TAB_TOKEN, nextTokenPosition, MODE_WITHIN_TAG];
       case "\r":
         if (text[nextTokenPosition] === "\n") {
           nextTokenPosition++;
         }
-        return [LINEBREAK_TOKEN, nextTokenPosition, WITHIN_TAG];
+        return [LINEBREAK_TOKEN, nextTokenPosition, MODE_WITHIN_TAG];
       case "\n":
-        return [LINEBREAK_TOKEN, nextTokenPosition, WITHIN_TAG];
+        return [LINEBREAK_TOKEN, nextTokenPosition, MODE_WITHIN_TAG];
       case '"':
         while (text[nextTokenPosition] !== '"') {
           if (text[nextTokenPosition] === "\\") {
@@ -199,7 +199,7 @@ function readToken(
             quotedValue: text.substring(fromPosition, nextTokenPosition)
           },
           nextTokenPosition,
-          WITHIN_TAG
+          MODE_WITHIN_TAG
         ];
       default:
         if (isValidIdentifierCharacter(firstCharacter, true)) {
@@ -219,7 +219,7 @@ function readToken(
               name: text.substring(fromPosition, nextTokenPosition)
             },
             nextTokenPosition,
-            WITHIN_TAG
+            MODE_WITHIN_TAG
           ];
         } else {
           throw new Error(`Unexpected character: ${firstCharacter}`);

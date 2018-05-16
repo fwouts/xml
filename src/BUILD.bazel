@@ -1,0 +1,31 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_typescript//:defs.bzl", "ts_library")
+
+ts_library(
+  name = "main",
+  srcs = [
+    "main.ts",
+  ],
+  deps = [
+    "//src/xml:formatter",
+    "//src/xml:lexer",
+    "//src/xml:model",
+    "//src/xml:parser",
+    "//:packages",
+  ],
+  requires = [
+    "fs",
+    "path",
+    "@types/node",
+  ],
+  tsconfig = "//:tsconfig.json",
+)
+
+ts_library(
+  name = "parsing",
+  srcs = [
+    "parsing.ts",
+  ],
+  tsconfig = "//:tsconfig.json",
+)

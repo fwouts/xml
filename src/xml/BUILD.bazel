@@ -1,0 +1,53 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_typescript//:defs.bzl", "ts_library")
+
+ts_library(
+  name = "formatter",
+  srcs = [
+    "formatter.ts",
+  ],
+  deps = [
+    ":lexer",
+    ":model",
+    "//:packages",
+  ],
+  requires = [
+    "assert-never",
+    "textbuilder",
+    "@types/node",
+  ],
+  tsconfig = "//:tsconfig.json",
+)
+
+ts_library(
+  name = "lexer",
+  srcs = [
+    "lexer.ts",
+  ],
+  tsconfig = "//:tsconfig.json",
+)
+
+ts_library(
+  name = "model",
+  srcs = [
+    "model.ts",
+  ],
+  deps = [
+    ":lexer",
+  ],
+  tsconfig = "//:tsconfig.json",
+)
+
+ts_library(
+  name = "parser",
+  srcs = [
+    "parser.ts",
+  ],
+  deps = [
+    ":lexer",
+    ":model",
+    "//src:parsing",
+  ],
+  tsconfig = "//:tsconfig.json",
+)
