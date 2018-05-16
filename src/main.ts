@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "./xml/parser";
-import { tokenize } from "./xml/tokenizer";
+import { tokenize } from "./xml/lexer";
 
 const tokens = Array.from(
   tokenize(

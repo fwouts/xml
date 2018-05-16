@@ -22,7 +22,7 @@ import {
   TEXT,
   TextToken,
   XmlToken
-} from "./tokenizer";
+} from "./lexer";
 
 export interface Root {
   prologAttributes?: Attributes;
