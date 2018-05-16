@@ -23,9 +23,9 @@ import {
   TextToken,
   XmlToken
 } from "./lexer";
-import { Attributes, Element, Node, Root } from "./model";
+import * as xml from "./model";
 
-export function parse(tokens: XmlToken[]): Root {
+export function parse(tokens: XmlToken[]): xml.Root {
   const parsedRoot = PARSER.root(tokens);
   if (!parsedRoot) {
     // TODO: Debug better.
@@ -54,22 +54,22 @@ export type Rule =
   | SelfClosingTagRule;
 
 export const ROOT_RULE = "root";
-export type RootRule = ParserRule<XmlToken, Root>;
+export type RootRule = ParserRule<XmlToken, xml.Root>;
 
 export const PROLOG_RULE = "prolog";
-export type PrologRule = ParserRule<XmlToken, Attributes>;
+export type PrologRule = ParserRule<XmlToken, xml.Attributes>;
 
 export const NODE_RULE = "node";
-export type NodeRule = ParserRule<XmlToken, Node>;
+export type NodeRule = ParserRule<XmlToken, xml.Node>;
 
 export const ELEMENT_RULE = "element";
-export type ElementRule = ParserRule<XmlToken, Element>;
+export type ElementRule = ParserRule<XmlToken, xml.Element>;
 
 export const START_TAG_RULE = "start-tag";
 export type StartTagRule = ParserRule<XmlToken, StartTag>;
 export interface StartTag {
   tag: string;
-  attributes: Attributes;
+  attributes: xml.Attributes;
 }
 
 export const ATTRIBUTE_RULE = "attribute";
@@ -110,7 +110,7 @@ const PARSER: {
   // | prolog? element
   [ROOT_RULE]: tokens => {
     return unwind(
-      find<XmlToken, [Attributes[], [Element]]>(
+      find<XmlToken, [xml.Attributes[], [xml.Element]]>(
         PARSER,
         tokens,
         [optional(PROLOG_RULE), one(ELEMENT_RULE), optional(TEXT)],
@@ -157,7 +157,7 @@ const PARSER: {
             `Incorrect tag in prolog: ${identifier.name} (expected xml).`
           );
         }
-        const attributes: Attributes = {};
+        const attributes: xml.Attributes = {};
         for (const attribute of attributeList) {
           attributes[attribute.key] = attribute.value;
         }
@@ -170,7 +170,7 @@ const PARSER: {
   // | TEXT
   // | COMMENT
   [NODE_RULE]: tokens => {
-    const foundElement = find<XmlToken, [[Element]]>(
+    const foundElement = find<XmlToken, [[xml.Element]]>(
       PARSER,
       tokens,
       [one(ELEMENT_RULE)],
@@ -208,7 +208,7 @@ const PARSER: {
   // | startTag node* endTag
   // | selfClosingTag
   [ELEMENT_RULE]: tokens => {
-    const foundOrdinaryTag = find<XmlToken, [[StartTag], Node[], [string]]>(
+    const foundOrdinaryTag = find<XmlToken, [[StartTag], xml.Node[], [string]]>(
       PARSER,
       tokens,
       [one(START_TAG_RULE), atLeast(0, NODE_RULE), one(END_TAG_RULE)],
@@ -261,7 +261,7 @@ const PARSER: {
         IGNORED_SPACE_TOKENS
       ),
       ([, [identifier], attributeList]) => {
-        const attributes: Attributes = {};
+        const attributes: xml.Attributes = {};
         for (const attribute of attributeList) {
           attributes[attribute.key] = attribute.value;
         }
@@ -322,7 +322,7 @@ const PARSER: {
         IGNORED_SPACE_TOKENS
       ),
       ([, [identifier], attributeList]) => {
-        const attributes: Attributes = {};
+        const attributes: xml.Attributes = {};
         for (const attribute of attributeList) {
           attributes[attribute.key] = attribute.value;
         }
