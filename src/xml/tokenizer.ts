@@ -1,4 +1,4 @@
-export type Token =
+export type XmlToken =
   | LeftBracketToken
   | RightBracketToken
   | SlashToken
@@ -93,11 +93,11 @@ export type Mode = typeof CONTENT | typeof WITHIN_TAG;
 const CONTENT = 1;
 const WITHIN_TAG = 2;
 
-export function* tokenize(text: string): IterableIterator<Token> {
+export function* tokenize(text: string): IterableIterator<XmlToken> {
   let position = 0;
   let mode: Mode = CONTENT;
   while (position < text.length) {
-    let nextToken: Token;
+    let nextToken: XmlToken;
     const oldPosition = position;
     [nextToken, position, mode] = readToken(text, position, mode);
     if (position <= oldPosition) {
@@ -111,7 +111,7 @@ function readToken(
   text: string,
   fromPosition: number,
   mode: Mode
-): [Token, number, Mode] {
+): [XmlToken, number, Mode] {
   const firstCharacter = text[fromPosition];
   let nextTokenPosition = fromPosition + 1;
   if (mode === CONTENT) {
