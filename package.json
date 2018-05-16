@@ -7,6 +7,8 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
-    "@types/node": "^10.0.8"
+    "@types/node": "^10.0.8",
+    "assert-never": "^1.1.0",
+    "textbuilder": "^1.0.3"
   }
 }
