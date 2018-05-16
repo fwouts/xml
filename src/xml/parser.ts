@@ -23,27 +23,7 @@ import {
   TextToken,
   XmlToken
 } from "./lexer";
-
-export interface Root {
-  prologAttributes?: Attributes;
-  rootElement: Element;
-}
-
-export interface Attributes {
-  [key: string]: string;
-}
-
-export type Node = Element | TextToken | CommentToken;
-
-export interface Element {
-  tag: string;
-
-  attributes: Attributes;
-
-  // null = <Element />
-  // empty list = <Element></Element>
-  children: Node[] | null;
-}
+import { Attributes, Element, Node, Root } from "./model";
 
 export function parse(tokens: XmlToken[]): Root {
   const parsedRoot = PARSER.root(tokens);
