@@ -4,6 +4,8 @@ import { format } from "./xml/formatter";
 import { tokenize } from "./xml/lexer";
 import { parse } from "./xml/parser";
 
+const DEBUG = false;
+
 const tokens = Array.from(
   tokenize(
     fs.readFileSync(
@@ -12,10 +14,15 @@ const tokens = Array.from(
     )
   )
 );
-console.log(tokens);
+
+if (DEBUG) {
+  console.log(tokens);
+}
 
 const parsed = parse(tokens);
-console.log(JSON.stringify(parsed, null, 2));
+if (DEBUG) {
+  console.log(JSON.stringify(parsed, null, 2));
+}
 
 const formatted = format(parsed);
 console.log(formatted);
